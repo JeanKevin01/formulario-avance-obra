@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Diario de Avance</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- =========== ENCABEZADO =========== -->
+        <header class="main-header">
+            <div class="form-section">
+                <h1>Reporte de Actividades</h1>
+                <form id="reporteForm">
+                    <fieldset class="header-fieldset">
+                        <div class="form-grid-header">
+                            <div>
+                                <label for="fecha">Fecha del Reporte:</label>
+                                <input type="date" id="fecha" name="fecha" required>
+                            </div>
+                            <div>
+                                <label for="turno">Turno:</label>
+                                <select id="turno" name="turno" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="Dia">Día</option>
+                                    <option value="Noche">Noche</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="supervisor">Nombre del Supervisor:</label>
+                                <select id="supervisor" name="supervisor" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="Jesus Febres">Jesús Febres</option>
+                                    <option value="Juan Perez">Juan Perez</option>
+                                    <option value="Maria Rodriguez">Maria Rodriguez</option>
+                                    <option value="Otro">Otro (especificar)</option>
+                                </select>
+                                <input type="text" id="supervisorOtro" name="supervisorOtro" class="hidden" placeholder="Ingrese su nombre">
+                            </div>
+                            <div>
+                                <label for="ubicacion">Ubicación General:</label>
+                                <input type="text" id="ubicacion" name="ubicacion" value="SD-5" required>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="logo-section">
+                <div class="logo-placeholder">Logo Empresa</div>
+            </div>
+        </header>
+        
+        <main>
+            <!-- =========== SECCIÓN DE ACTIVIDADES PRINCIPALES =========== -->
+            <fieldset>
+                <legend>Descripción de Actividades Realizadas</legend>
+                <div class="form-row">
+                    <label for="tipoActividadPrincipal">Tipo de Actividad:</label>
+                    <select id="tipoActividadPrincipal">
+                        <option value="">Seleccione una opción...</option>
+                        <option value="colocacionRelleno">Caso 1: Colocación y relleno</option>
+                        <option value="excavacion">Caso 2: Excavación</option>
+                        <option value="limpieza">Caso 3: Limpieza profunda</option>
+                    </select>
+                </div>
+                <div id="subActividadContainer" class="form-row hidden">
+                    <label for="tipoSubActividad">Sub-tipo:</label>
+                    <select id="tipoSubActividad"></select>
+                </div>
+                <div id="dynamic-forms-container"></div>
+            </fieldset>
+
+            <!-- =========== SECCIÓN DE ACTIVIDADES DE SOPORTE =========== -->
+            <fieldset>
+                <legend>Actividades de Soporte</legend>
+                <div class="form-grid-header">
+                    <div>
+                        <label for="soporteEmpresa">Empresa:</label>
+                        <input type="text" id="soporteEmpresa" value="MBE">
+                    </div>
+                    <div>
+                        <label for="soporteSwitch">¿Se realizaron actividades?</label>
+                        <select id="soporteSwitch">
+                            <option value="NO">NO</option>
+                            <option value="SI">SI</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="dynamic-soporte-container"></div>
+            </fieldset>
+
+            <!-- =========== SECCIÓN: EQUIPOS UTILIZADOS =========== -->
+            <fieldset>
+                <legend>Equipos Utilizados</legend>
+                <div id="equipos-utilizados-container">
+                    <!-- Las filas de equipos se insertarán aquí -->
+                </div>
+                <button type="button" id="add-equipo-btn" class="add-button">+ Agregar Equipo</button>
+            </fieldset>
+
+            <!-- =========== SECCIÓN: RESTRICCIONES =========== -->
+            <fieldset>
+                <legend>Restricciones</legend>
+                <div class="form-row">
+                    <label for="restricciones-switch">¿Hubo restricciones?</label>
+                    <select id="restricciones-switch">
+                        <option value="NO">NO</option>
+                        <option value="SI">SI</option>
+                    </select>
+                </div>
+                <div id="restricciones-texto-container" class="form-row hidden">
+                    <label for="restricciones-texto">Descripción de la restricción:</label>
+                    <textarea id="restricciones-texto" rows="3" placeholder="Describa la restricción..."></textarea>
+                </div>
+            </fieldset>
+
+            <!-- =========== SECCIÓN: ACTIVIDADES POR REALIZAR =========== -->
+            <fieldset>
+                <legend>Actividades por Realizar (Pendientes)</legend>
+                <div class="form-row">
+                    <label for="pendientes-texto">Descripción:</label>
+                    <textarea id="pendientes-texto" rows="3" placeholder="Describa las actividades pendientes para el siguiente turno..."></textarea>
+                </div>
+            </fieldset>
+
+            <button type="submit" form="reporteForm" class="submit-btn">Enviar Reporte Completo</button>
+        </main>
+    </div>
+
+    <!-- =========== TODOS LOS TEMPLATES =========== -->
+
+    <!-- Template Contenido General (Caso 1) -->
+    <template id="template-contenido-general">
+        <div class="activity-card">
+            <button type="button" class="remove-btn" title="Eliminar este reporte">X</button>
+            <div class="form-grid-detailed">
+                <div class="form-field" data-placeholder="identificador"></div>
+                <div class="form-field">
+                    <label># Capa:</label>
+                    <input type="number" name="capa" placeholder="0" required>
+                </div>
+                <div class="form-field">
+                    <label>Material:</label>
+                    <select name="material" required>
+                        <option value="">Seleccione...</option>
+                        <option value="Zona 5">Zona 5</option>
+                        <option value="Zona 6">Zona 6</option>
+                        <option value="Zona 7">Zona 7</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>Avance:</label>
+                    <select name="avance" required>
+                        <option value="">Seleccione...</option>
+                        <option value="Conformado">Conformado</option>
+                        <option value="Conformado y Compactado">Conformado y Compactado</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>Largo (m):</label>
+                    <input type="number" step="0.01" name="vol_largo" class="volume-input" placeholder="0.00" required>
+                </div>
+                <div class="form-field">
+                    <label>Ancho (m):</label>
+                    <input type="number" step="0.01" name="vol_ancho" class="volume-input" placeholder="0.00" required>
+                </div>
+                <div class="form-field">
+                    <label>Alto (m):</label>
+                    <input type="number" step="0.01" name="vol_alto" class="volume-input" placeholder="0.00" required>
+                </div>
+                <div class="form-field">
+                    <label>Volumen Total (m³):</label>
+                    <input type="text" name="volumen_total" class="calculated-volume" readonly placeholder="Cálculo automático">
+                </div>
+                <div class="form-field">
+                    <label>Personal Civil:</label>
+                    <input type="number" name="personal_civil" placeholder="0" required>
+                </div>
+                <div class="form-field">
+                    <label>Liberado:</label>
+                    <select name="liberado" required>
+                        <option value="">Seleccione...</option>
+                        <option value="SI">SI</option>
+                        <option value="NO">NO</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button" class="clone-btn">+ Duplicar</button>
+        </div>
+    </template>
+    
+    <!-- Template Limpieza Profunda (Caso 3) -->
+    <template id="template-limpieza">
+        <div class="activity-card">
+            <button type="button" class="remove-btn" title="Eliminar este reporte">X</button>
+            <div class="form-grid-detailed">
+                <div class="form-field">
+                    <label>Sector:</label>
+                    <input type="text" name="sector" placeholder="Ej: ABC" required>
+                </div>
+                <div class="form-field">
+                    <label>Área (m²):</label>
+                    <input type="number" step="0.01" name="area" placeholder="0.00" required>
+                </div>
+                <div class="form-field">
+                    <label>Personal Civil:</label>
+                    <input type="number" name="personal_civil" placeholder="0" required>
+                </div>
+            </div>
+            <button type="button" class="clone-btn">+ Duplicar</button>
+        </div>
+    </template>
+    
+    <!-- Template Actividades de Soporte -->
+    <template id="template-soporte-actividad">
+        <div class="activity-card soporte-card">
+            <button type="button" class="remove-btn" title="Eliminar esta actividad de soporte">X</button>
+            <div class="form-field-full">
+                <label>Descripción de la actividad:</label>
+                <textarea name="soporte_descripcion" rows="2" placeholder="Describa la actividad realizada..." required></textarea>
+            </div>
+            <div class="form-field">
+                <label>¿Se usó maquinaria?</label>
+                <select name="soporte_usa_maquinaria" class="maquinaria-switch">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+            <div name="maquinaria_container" class="maquinaria-container hidden">
+                <button type="button" class="add-maquinaria-btn">+ Añadir Maquinaria</button>
+            </div>
+            <div class="form-grid-detailed">
+                 <div class="form-field">
+                    <label>Personal Civil:</label>
+                    <input type="number" name="soporte_personal" placeholder="0" required>
+                </div>
+                <div class="form-field">
+                    <label>Tiempo (hrs):</label>
+                    <input type="number" step="0.5" name="soporte_tiempo" placeholder="0.0" required>
+                </div>
+            </div>
+            <button type="button" class="clone-btn">+ Duplicar Actividad de Soporte</button>
+        </div>
+    </template>
+
+    <!-- Template Fila de Maquinaria (para Soporte) -->
+    <template id="template-maquinaria-fila">
+        <div class="maquinaria-row">
+            <input type="text" name="maquina_nombre" placeholder="Nombre de la maquinaria" required>
+            <input type="text" name="maquina_operador" value="01 operador" readonly>
+            <button type="button" class="remove-maquinaria-btn" title="Eliminar maquinaria">X</button>
+        </div>
+    </template>
+
+    <!-- Template Fila de Equipo (para Equipos Utilizados) -->
+    <template id="template-equipo-fila">
+        <div class="equipo-row">
+            <input type="number" name="equipo_cantidad" placeholder="Cant." required>
+            <input type="text" name="equipo_nombre" placeholder="Nombre del equipo" required>
+            <button type="button" class="remove-row-btn" title="Eliminar equipo">X</button>
+        </div>
+    </template>
+    
+    <script src="script.js"></script>
+</body>
+</html>
